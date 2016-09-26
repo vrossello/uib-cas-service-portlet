@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 6.2.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_6_2_0.dtd">
+<service-builder package-path="es.uib.owu.liferay.cas">
+	<author>vrf495</author>
+	<namespace>casutil</namespace>	
+	
+	<entity name="CasServiceUtil" local-service="true" remote-service="true" cache-enabled="false" >
+
+		<!-- PK fields -->
+
+		<column name="casServiceId" type="long" primary="true" />
+		
+		<column name="proxyGrantingTicketIou" type="String" />
+		<column name="proxyGrantingTicket" type="String" />
+		
+
+		<!-- Group instance -->
+
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+ 
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+ 		<finder name="ProxyGrantingTicketIou" return-type="Collection">
+               <finder-column name="proxyGrantingTicketIou" />
+        </finder>
+		
+	</entity>
+	
+	
+</service-builder>

@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!DOCTYPE hook PUBLIC "-//Liferay//DTD Hook 6.2.0//EN" "http://www.liferay.com/dtd/liferay-hook_6_2_0.dtd">
+
+<hook>
+	<portal-properties>portal.properties</portal-properties><!-- DISABLE OLD CAS FILTER -->
+	
+
+	<servlet-filter>
+         <servlet-filter-name>CAS Single Sign Out Filter</servlet-filter-name>         					  
+         <servlet-filter-impl>cat.uib.cti.cas.client.session.ExtendedSingleSignOutFilter</servlet-filter-impl>    
+         <init-param>
+			<param-name>casServerUrlPrefix</param-name>
+			<param-value>https://sso.uib.es/cas/</param-value>
+		</init-param>    
+     </servlet-filter>
+     	
+	<servlet-filter>
+		<servlet-filter-name>SSO CASProxyLoginFilter</servlet-filter-name>
+		<servlet-filter-impl>es.uib.owu.liferay.filters.CASProxyLoginFilter</servlet-filter-impl>	
+	</servlet-filter>	
+	
+
+     
+    <servlet-filter>
+         <servlet-filter-name>CAS Check Session Filter</servlet-filter-name>         					  
+         <servlet-filter-impl>cat.uib.cti.cas.client.validity.CheckSessionFilter</servlet-filter-impl>     
+		<init-param>
+		      <param-name>serverName</param-name>
+		      <param-value>https://portal.uib.cat</param-value>
+		      <!-- <param-value>https://swww.uib.eu</param-value> -->
+		 </init-param>
+         <init-param>
+		      <param-name>timeToCheckInSeconds</param-name>
+		      <param-value>60</param-value>
+		 </init-param>
+		 <init-param>
+		 	  <param-name>casServerSessionCheckUrl</param-name>
+		      <param-value>https://sso.uib.es/cas/check</param-value>
+		      <!--   <param-value>https://sso1-dev.sint.uib.es:9443/cas9/check</param-value> --> 
+		 </init-param>
+		 <init-param>
+		      <param-name>casServerLoginUrl</param-name>
+		      <param-value>https://sso.uib.es/cas/login</param-value>
+		      <!-- <param-value>https://sso1-dev.sint.uib.es:9443/cas9/login</param-value>--> 
+		 </init-param>		    		
+     </servlet-filter>
+    
+   
+    <servlet-filter-mapping>
+        <servlet-filter-name>CAS Single Sign Out Filter</servlet-filter-name>
+        <before-filter>SSO CAS Filter</before-filter>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </servlet-filter-mapping>
+    
+	<servlet-filter-mapping>
+		<servlet-filter-name>SSO CASProxyLoginFilter</servlet-filter-name>
+		<url-pattern>/c/portal/login</url-pattern>		
+		<url-pattern>/c/portal/logout</url-pattern>
+		<url-pattern>/cas/proxyCallback</url-pattern>	<!-- TAMBE S ESPECIFICA A NIVELL DE PORTAL.PROPERTIES -->				
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</servlet-filter-mapping>	
+	
+
+    <servlet-filter-mapping>
+        <servlet-filter-name>CAS Check Session Filter</servlet-filter-name>
+        <after-filter>SSO CAS Filter</after-filter>        
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </servlet-filter-mapping>
+
+	
+	
+</hook>

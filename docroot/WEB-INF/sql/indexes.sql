@@ -1,0 +1,1 @@
+create index IX_30075C33 on casutil_CasServiceUtil (proxyGrantingTicketIou);
